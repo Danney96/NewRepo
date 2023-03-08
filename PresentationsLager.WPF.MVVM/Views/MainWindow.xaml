@@ -102,7 +102,7 @@
                            Padding="10,10,10,10"/>
             </Border>
             <TextBlock Text="Ange BokningId eller MedlemsId: " FontWeight="Bold"/>
-            <TextBox x:Name="bIdmId" Width="150" Height="20" Text="{Binding BokningNr, Mode=TwoWay}" />
+            <TextBox x:Name="bIdmId" Width="150" Height="20" Text="{Binding BokningNr}" />
             <!--<Button x:Name="btnSökTillbaka" Margin="10,10,10,10" Content="Sök Bokning" FontSize="14" Width="100" Command="{Binding SökTillbakaCommand, UpdateSourceTrigger=PropertyChanged}" />-->
             <Separator Margin="20"/>
             <DataGrid Height="150" Width="170" ItemsSource="{Binding BokningensBöcker}"
@@ -131,8 +131,8 @@
                            Padding="10,10,10,10"/>
             </Border>
             <TextBlock Text="Ange BokningId eller MedlemsId: " FontWeight="Bold" Margin="5"/>
-            <TextBox x:Name="bIdmId1" Width="150" Height="20" HorizontalAlignment="Center" Text="{Binding BokningNr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <!--<Button x:Name="btnSök" Content="Sök Bokning" FontSize="14" Width="100" Margin="10,10,10,10" Command="{Binding SökCommand, UpdateSourceTrigger=PropertyChanged}" />-->
+            <TextBox x:Name="bIdmId1" Width="150" Height="20" HorizontalAlignment="Center" Text="{Binding BokningNr}" />
+            <Button x:Name="btnSök" Content="Sök Bokning" FontSize="14" Width="100" Margin="10,10,10,10" Command="{Binding SökCommand, UpdateSourceTrigger=PropertyChanged}" />
 
             <StackPanel DataContext="{Binding ElementName=bIdmId1}"/>
             <TextBlock Text="Id" FontWeight="Bold" Margin="5" />
