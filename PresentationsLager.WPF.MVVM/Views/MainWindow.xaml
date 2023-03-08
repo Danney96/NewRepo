@@ -118,7 +118,7 @@
             <TextBlock Text="Medlem" FontWeight="Bold" />
             <TextBox Text="{Binding ValdBokning.Tillhör}" IsReadOnly="True" />
             <TextBlock Text="Utlämnad" FontWeight="Bold" />
-            <TextBox Text="{Binding ValdBokning.FaktisktStartLån.Date}" />
+            
             <Separator Margin="20"/>
             <Button x:Name="btnLämnaTillbaka" Content="Boka Böcker" FontSize="14" Width="100" Command="{Binding SaveCommand}" />
         </StackPanel>
