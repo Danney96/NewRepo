@@ -29,6 +29,15 @@ namespace PresentationsLager.WPF.MVVM.ViewModels
         private ObservableCollection<Bok> utBokningensBöcker = null!;
         public ObservableCollection<Bok> UtBokningensBöcker { get => utBokningensBöcker; set { utBokningensBöcker = value; OnPropertyChanged(); } }
 
+        private ObservableCollection<Bok> tillbakaBokningensBöcker = null!;
+        public ObservableCollection<Bok> TillbakaBokningensBöcker { get => tillbakaBokningensBöcker; set { tillbakaBokningensBöcker = value; OnPropertyChanged(); } }
+
+        private Bokning tillbakaBokning;
+        public Bokning TillbakaBokning { get => tillbakaBokning; set { tillbakaBokning = value; OnPropertyChanged(); } }
+
+        private Faktura fakturaPotatis;
+        public Faktura FakturaPotatis { get => fakturaPotatis; set { fakturaPotatis = value; OnPropertyChanged(); } }
+
 
         private string status = "Ready";
         public string Status
@@ -244,5 +253,19 @@ namespace PresentationsLager.WPF.MVVM.ViewModels
             $"har lämnats ut {UtBokning.FaktisktStartLån}" +
             $"och ska lämnas tillbakas senast {UtBokning.ÅterTid}";
         });
+
+        private ICommand sökTillbakaCommand = null!;
+        public ICommand SökTillbakaCommand => sökTillbakaCommand ??= sökTillbakaCommand = new RelayCommand(() =>
+        {
+            TillbakaBokningensBöcker = new ObservableCollection<Bok>(kontroller.HämtaBokningensBöcker(bokningNr));
+        });
+
+        private ICommand lämnaTillbakaCommand = null!;
+        public ICommand LämnaTillbakaCommand => lämnaTillbakaCommand ??= lämnaTillbakaCommand = new RelayCommand(() =>
+        {
+            Expidit exp = kontroller.HämtaExpidit(1);
+            FakturaPotatis = kontroller.SkapaFaktura(exp, bokningNr);
+        });
+
     }
 }

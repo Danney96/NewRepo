@@ -179,7 +179,7 @@ namespace BusinessLayer
         /// <param name="expidit"></param>
         /// <param name="bNr"></param>
         /// <returns></returns>
-        public List<Faktura> SkapaFaktura(Expidit expidit, int bNr)
+        public Faktura SkapaFaktura(Expidit expidit, int bNr)
         {
             using (UnitOfWork unit = new UnitOfWork())
             {
@@ -188,7 +188,7 @@ namespace BusinessLayer
                 if (bokning2.Återlämnad == false)
                 {
                     int antalBöcker = bokning2.BokadeBöcker.Count();
-                    List<Faktura> fakturaList = new List<Faktura>();
+                    //List<Faktura> fakturaList = new List<Faktura>();
                     int uträkningPris = ((int)(DateTime.Now - bokning2.ÅterTid).TotalDays) * (10 * antalBöcker);
                     if (uträkningPris < 0)
                     {
@@ -211,8 +211,8 @@ namespace BusinessLayer
                     bokning2.Återlämnad = true;
                     unit.Faktura.Update(faktura);
                     unit.Complete();
-                    fakturaList.Add(faktura);
-                    return fakturaList;
+                    //fakturaList.Add(faktura);
+                    return faktura;
                 }
                 else
                 {
