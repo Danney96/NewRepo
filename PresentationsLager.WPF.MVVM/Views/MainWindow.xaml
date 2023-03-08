@@ -102,25 +102,27 @@
                            Padding="10,10,10,10"/>
             </Border>
             <TextBlock Text="Ange BokningId eller MedlemsId: " FontWeight="Bold"/>
-            <TextBox x:Name="bIdmId" Width="150" Height="20" Text="{Binding BokningNr, Mode=TwoWay}" />
-            <!--<Button x:Name="btnSökTillbaka" Margin="10,10,10,10" Content="Sök Bokning" FontSize="14" Width="100" Command="{Binding SökTillbakaCommand, UpdateSourceTrigger=PropertyChanged}" />-->
+            <TextBox x:Name="bIdmId" Width="150" Height="20" Text="{Binding TillbakaBokning}" />
+            <Button x:Name="btnSökTillbaka" Margin="10,10,10,10" Content="Sök Bokning" FontSize="14" Width="100" Command="{Binding SökTillbakaCommand, UpdateSourceTrigger=PropertyChanged}" />
             <Separator Margin="20"/>
-            <DataGrid Height="150" Width="170" ItemsSource="{Binding BokningensBöcker}"
+            <DataGrid Height="150" Width="170" ItemsSource="{Binding TillbakaBokningensBöcker}"
                 AutoGenerateColumns="False" IsReadOnly="True">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="ISBN" Binding="{Binding ISBN}" />
                     <DataGridTextColumn Header="Titel" Binding="{Binding Titel}" />
                 </DataGrid.Columns>
             </DataGrid>
-            
-            <TextBlock Text="Id" FontWeight="Bold" />
-            <TextBox Text="{Binding ValdBokning.BokningId}" IsReadOnly="True" />
-            <TextBlock Text="Medlem" FontWeight="Bold" />
-            <TextBox Text="{Binding ValdBokning.Tillhör}" IsReadOnly="True" />
-            <TextBlock Text="Utlämnad" FontWeight="Bold" />
-            
+
+            <Button x:Name="btnLämnaTillbaka" Content="Lämna Tillbaka" FontSize="14" Width="100" Command="{Binding LämnaTillbakaCommand}" />
+
+            <TextBlock Text="Faktura Id" FontWeight="Bold" />
+            <TextBox Text="{Binding FakturaPotatis.FakturaId}" IsReadOnly="True" />
+            <TextBlock Text="Åter tid för bokningen" FontWeight="Bold" />
+            <TextBox Text="{Binding FakturaPotatis.FaktiskÅterTid}" IsReadOnly="True" />
+            <TextBlock Text="Total pris i kr" FontWeight="Bold" />
+            <TextBox Text="{Binding FakturaPotatis.TotalPris}" />
             <Separator Margin="20"/>
-            <Button x:Name="btnLämnaTillbaka" Content="Boka Böcker" FontSize="14" Width="100" Command="{Binding SaveCommand}" />
+           
         </StackPanel>
         <!-- DockPanel LastChildFill HämtaBokning-->
         <StackPanel Orientation="Vertical" Background="Aqua" Margin="10,10,10,10">
@@ -131,15 +133,15 @@
                            Padding="10,10,10,10"/>
             </Border>
             <TextBlock Text="Ange BokningId eller MedlemsId: " FontWeight="Bold" Margin="5"/>
-            <TextBox x:Name="bIdmId1" Width="150" Height="20" HorizontalAlignment="Center" Text="{Binding BokningNr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-            <!--<Button x:Name="btnSök" Content="Sök Bokning" FontSize="14" Width="100" Margin="10,10,10,10" Command="{Binding SökCommand, UpdateSourceTrigger=PropertyChanged}" />-->
+            <TextBox x:Name="bIdmId1" Width="150" Height="20" HorizontalAlignment="Center" Text="{Binding BokningNr}" /> <!--, UpdateSourceTrigger=PropertyChanged-->
+            <Button x:Name="btnSök" Content="Sök Bokning" FontSize="14" Width="100" Margin="10,10,10,10" Command="{Binding SökCommand, UpdateSourceTrigger=PropertyChanged}" />
 
             <StackPanel DataContext="{Binding ElementName=bIdmId1}"/>
-            <TextBlock Text="Id" FontWeight="Bold" Margin="5" />
-            <TextBox Text="{Binding Path=UtBokning.BokningId}" Margin="5" IsReadOnly="True" />
+            <!--<TextBlock Text="Id" FontWeight="Bold" Margin="5" />
+            <TextBox Text="{Binding Path=UtBokning.BokningId}" Margin="5" IsReadOnly="True" />-->
 
-            <TextBlock Text="Medlem" FontWeight="Bold" Margin="5" />
-            <TextBox Text="{Binding Path=UtBokning.MedlemsNamn}" IsReadOnly="True" />
+            <!--<TextBlock Text="Medlem" FontWeight="Bold" Margin="5" />
+            <TextBox Text="{Binding Path=UtBokning.MedlemsNamn}" IsReadOnly="True" />-->
 
             <!--<TextBlock Text="Utlämnad" FontWeight="Bold" Margin="5" />
             <DatePicker Text="{Binding Path=ValdBokning.FaktisktStartLån}" />
