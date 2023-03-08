@@ -232,6 +232,7 @@ namespace PresentationsLager.WPF.MVVM.ViewModels
         private ICommand sökCommand = null!;
         public ICommand SökCommand => sökCommand ??= sökCommand = new RelayCommand(() =>
         {
+
             UtBokningensBöcker = new ObservableCollection<Bok>(kontroller.HämtaBokningensBöcker(bokningNr));
              
         });

@@ -118,7 +118,7 @@
             <TextBlock Text="Medlem" FontWeight="Bold" />
             <TextBox Text="{Binding ValdBokning.Tillhör}" IsReadOnly="True" />
             <TextBlock Text="Utlämnad" FontWeight="Bold" />
-            <TextBox Text="{Binding ValdBokning.FaktisktStartLån.Date}" />
+            <TextBox Text="{Binding ValdBokning.FaktisktStartLån}" />
             <Separator Margin="20"/>
             <Button x:Name="btnLämnaTillbaka" Content="Boka Böcker" FontSize="14" Width="100" Command="{Binding SaveCommand}" />
         </StackPanel>
@@ -131,7 +131,7 @@
                            Padding="10,10,10,10"/>
             </Border>
             <TextBlock Text="Ange BokningId eller MedlemsId: " FontWeight="Bold" Margin="5"/>
-            <TextBox x:Name="bIdmId1" Width="150" Height="20" HorizontalAlignment="Center" Text="{Binding BokningNr}" />
+            <TextBox x:Name="bIdmId1" Width="150" Height="20" HorizontalAlignment="Center" Text="{Binding BokningNr, Mode=OneWayToSource}"/>
             <Button x:Name="btnSök" Content="Sök Bokning" FontSize="14" Width="100" Margin="10,10,10,10" Command="{Binding SökCommand, UpdateSourceTrigger=PropertyChanged}" />
 
             <StackPanel DataContext="{Binding ElementName=bIdmId1}"/>
