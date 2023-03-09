@@ -283,16 +283,22 @@ namespace PresentationsLager.WPF.MVVM.ViewModels
         public ICommand SökCommand => sökCommand ??= sökCommand = new RelayCommand(() =>
         {
             UtBokningensBöcker = new ObservableCollection<Bok>(kontroller.HämtaBokningensBöcker(bokningNr));
-            
+            TillbakaBokning = kontroller.HämtaBokning(bokningNr);
+            IsNotModified = false;
         });
         private ICommand hämtaUtCommand = null!;
         public ICommand HämtaUtCommand => hämtaUtCommand ??= hämtaUtCommand = new RelayCommand(() =>
         {
-            UtBokning = kontroller.HämtaUtBokning(UtBokning);
-            Status = $"Bokningen med bokningsId {UtBokning.BokningId} " +
-            $"har lämnats ut {UtBokning.FaktisktStartLån} " +
-            $"och ska lämnas tillbakas senast {UtBokning.ÅterTid} ";
-        });
+            if (UtBokningensBöcker != null)
+            {
+                UtBokning = kontroller.HämtaUtBokning(UtBokning);
+                Status = $"Bokningen med bokningsId {UtBokning.BokningId} " +
+                $"har lämnats ut {UtBokning.FaktisktStartLån} " +
+                $"och ska lämnas tillbakas senast {UtBokning.ÅterTid} ";
+                IsNotModified = true;
+            }
+            
+        }, () => !IsNotModified);
 
         private ICommand sökTillbakaCommand = null!;
         public ICommand SökTillbakaCommand => sökTillbakaCommand ??= sökTillbakaCommand = new RelayCommand(() =>

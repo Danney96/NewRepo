@@ -137,7 +137,7 @@
 
                 <Separator Margin="20"/>
                 <TextBlock Text="Skapad av Expidit" FontSize="13" FontWeight="Bold" HorizontalAlignment="Center"/>
-                <TextBox Text="{Binding Path=ValdBokning.Expidit.Namn}" FontSize="13" Width="150" Height="20" Margin="10,10,10,10"/>
+                <TextBox Text="{Binding Path= TillbakaBokning.Expidit}" FontSize="13" Width="150" Height="20" Margin="10,10,10,10"/>
                 <TextBlock Text="Skapad av Expidit med ID" FontSize="13" FontWeight="Bold" HorizontalAlignment="Center"/>
                 <TextBox Text="{Binding Path=ValdBokning.Expidit.AnstId}" FontSize="13" Width="150" Height="20" Margin="10,10,10,10"/>
                 <DataGrid Height="150" Width="205"  ItemsSource="{Binding Path=UtBokningensBöcker}"
