@@ -24,5 +24,7 @@ namespace PresentationsLager.WPF.MVVM.Views
         {
             InitializeComponent();
         }
+
+        
     }
 }
