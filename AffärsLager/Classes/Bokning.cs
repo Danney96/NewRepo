@@ -11,12 +11,12 @@ namespace Business.Classes
         [Key]
         public int BokningId { get; set; }
 
-        [ForeignKey("ExpiditNamn")]
+        [ForeignKey("Expidit")]
         public int? SkapadAv { get; set; }
-        public Expidit ExpiditNamn { get; set; } = null!;
-        [ForeignKey("MedlemsNamn")]
+        public Expidit Expidit { get; set; } = null!;
+        [ForeignKey("Medlem")]
         public int? Tillhör { get; set; }
-        public Medlem MedlemsNamn { get; set; } = null!;
+        public Medlem Medlem { get; set; } = null!;
 
         public virtual IList<Bok> BokadeBöcker { get; set; } = new List<Bok>();
         public DateTime StartLån { get; set; }  // Det datum som skrivs in när man först planerar att boka boken ifrån i menyval 1

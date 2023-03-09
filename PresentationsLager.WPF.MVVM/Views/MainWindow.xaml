@@ -12,11 +12,11 @@
         <vm:MainViewModel />
     </Window.DataContext>
 
-    <!--<Window.Resources>
+    <Window.Resources>
         <ResourceDictionary>
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         </ResourceDictionary>
-    </Window.Resources>-->
+    </Window.Resources>
 
     <DockPanel LastChildFill="True">
         <!-- DockPanel Top -->
@@ -115,7 +115,7 @@
                     <Button x:Name="btnSave" Content="Boka Böcker" FontSize="14" Width="100" Margin="10,15,10,5" Command="{Binding SaveCommand}" />
                 </StackPanel>
             </StackPanel>
-            <!-- DockPanel Right Återlämning-->
+            <!-- DockPanel Right Lämna ut Bokning-->
             <StackPanel Orientation="Vertical" Background="Aqua" Margin="10,10,10,10" Width="290">
                 <Border BorderThickness="2" BorderBrush="Black">
                     <TextBlock Text="Lämna Ut bokning" TextAlignment="Center" FontFamily="Arial"
@@ -137,9 +137,9 @@
 
                 <Separator Margin="20"/>
                 <TextBlock Text="Skapad av Expidit" FontSize="13" FontWeight="Bold" HorizontalAlignment="Center"/>
-                <TextBox Text="{Binding Path=ValdBokning.ExpiditNamn}" FontSize="13" Width="150" Height="20" Margin="10,10,10,10"/>
+                <TextBox Text="{Binding Path=ValdBokning.Expidit.Namn}" FontSize="13" Width="150" Height="20" Margin="10,10,10,10"/>
                 <TextBlock Text="Skapad av Expidit med ID" FontSize="13" FontWeight="Bold" HorizontalAlignment="Center"/>
-                <TextBox Text="{Binding Path=ValdBokning.SkapadAv}" FontSize="13" Width="150" Height="20" Margin="10,10,10,10"/>
+                <TextBox Text="{Binding Path=ValdBokning.Expidit.AnstId}" FontSize="13" Width="150" Height="20" Margin="10,10,10,10"/>
                 <DataGrid Height="150" Width="205"  ItemsSource="{Binding Path=UtBokningensBöcker}"
                       AutoGenerateColumns="False" IsReadOnly="True">
                     <DataGrid.Columns>
@@ -153,7 +153,7 @@
                 </StackPanel>
             </StackPanel>
 
-            <!-- DockPanel LastChildFill HämtaBokning-->
+            <!-- DockPanel LastChildFill Lämna Tillbaka Bokning-->
             <StackPanel DockPanel.Dock="Right" Width="320" Orientation="Vertical" Background="Orange" Margin="10,10,10,10">
                 <Border BorderThickness="2" BorderBrush="Black">
                     <TextBlock Text="Lämna Tillbaka bokning" TextAlignment="Center" FontFamily="Arial"
