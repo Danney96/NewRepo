@@ -38,7 +38,7 @@
                 </RadialGradientBrush>
             </StackPanel.Background>
             <TextBlock Text="Ange inloggningsId" FontSize="14" FontWeight="Bold" HorizontalAlignment="Center" Foreground="Red" Margin="5,5,5,5"/>
-            <TextBox x:Name="inlogg" Height="20" Width="150" Text="{Binding AnställningsId}"/>
+            <TextBox x:Name="inlogg" Height="20" Width="150" Text="{Binding AnställningsId,Mode=OneWayToSource}" BorderBrush="#FFE0E0E0" Background="White"/>
             <TextBlock Text="Ange lösenord" FontSize="14" FontWeight="Bold" HorizontalAlignment="Center" Foreground="Red" Margin="5,5,5,5"/>
             <TextBox x:Name="Lösen" Height="20" Width="150" Text="{Binding LösenordInlogg}"/>
             <ToggleButton x:Name="btnLogin" Content="Login"  FontSize="14" Width="100" Margin="10,5,10,5" Command="{Binding InloggCommand}" Height="27"/>
@@ -137,9 +137,9 @@
 
                 <Separator Margin="20"/>
                 <TextBlock Text="Skapad av Expidit" FontSize="13" FontWeight="Bold" HorizontalAlignment="Center"/>
-                <TextBox Text="{Binding Inlogg.Namn}" FontSize="13" Width="150" Height="20" Margin="10,10,10,10"/>
+                <TextBox Text="{Binding Path=ValdBokning.ExpiditNamn}" FontSize="13" Width="150" Height="20" Margin="10,10,10,10"/>
                 <TextBlock Text="Skapad av Expidit med ID" FontSize="13" FontWeight="Bold" HorizontalAlignment="Center"/>
-                <TextBox Text="{Binding Inlogg.AnstId}" FontSize="13" Width="150" Height="20" Margin="10,10,10,10"/>
+                <TextBox Text="{Binding Path=ValdBokning.SkapadAv}" FontSize="13" Width="150" Height="20" Margin="10,10,10,10"/>
                 <DataGrid Height="150" Width="205"  ItemsSource="{Binding Path=UtBokningensBöcker}"
                       AutoGenerateColumns="False" IsReadOnly="True">
                     <DataGrid.Columns>
@@ -152,7 +152,7 @@
                     <Button x:Name="btnHämtaBokning" Content="Hämta ut bokning" FontSize="14" Width="120" Margin="10,15,10,5" Command="{Binding HämtaUtCommand}" />
                 </StackPanel>
             </StackPanel>
-            
+
             <!-- DockPanel LastChildFill HämtaBokning-->
             <StackPanel DockPanel.Dock="Right" Width="320" Orientation="Vertical" Background="Orange" Margin="10,10,10,10">
                 <Border BorderThickness="2" BorderBrush="Black">
@@ -185,6 +185,8 @@
 
                 <TextBlock Text="Faktura Id" FontWeight="Bold" HorizontalAlignment="Center"/>
                 <TextBox Text="{Binding FakturaPotatis.FakturaId}" IsReadOnly="True" Width="150" Height="20"/>
+                <TextBlock Text="Skapad av" FontWeight="Bold" HorizontalAlignment="Center"/>
+                <TextBox Text="{Binding Inlogg.Namn}" IsReadOnly="True" Width="150" Height="20"/>
                 <TextBlock Text="Åter tid för bokningen" FontWeight="Bold" HorizontalAlignment="Center"/>
                 <TextBox Text="{Binding FakturaPotatis.FaktiskÅterTid}" IsReadOnly="True" Width="150" Height="20"/>
                 <TextBlock Text="Total pris i kr" FontWeight="Bold" HorizontalAlignment="Center"/>
