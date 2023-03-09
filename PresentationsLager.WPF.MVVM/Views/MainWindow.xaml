@@ -6,12 +6,18 @@
         xmlns:local="clr-namespace:PresentationsLager.WPF.MVVM"
         xmlns:vm="clr-namespace:PresentationsLager.WPF.MVVM.ViewModels"
         mc:Ignorable="d"
-        Title="Bokning av böcker" Height="900" Width="1000"
+        Title="Bokning av böcker" Height="970" Width="1000"
         MinHeight="500" MinWidth="800" WindowStartupLocation="CenterScreen">
     <Window.DataContext>
         <vm:MainViewModel />
     </Window.DataContext>
-    
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        </ResourceDictionary>
+    </Window.Resources>
+
     <DockPanel LastChildFill="True">
         <!-- DockPanel Top -->
         <Menu DockPanel.Dock="Top" Background="LightBlue" Margin="10,10,10,10">
@@ -20,14 +26,22 @@
                 <Separator/>
                 <MenuItem Header="E_xit" Command="{Binding ExitCommand}" />
             </MenuItem>
-            
+
         </Menu>
-        <StackPanel DockPanel.Dock="Top" Background="AliceBlue" Height="150">
-            <TextBlock Text="Ange inloggningsId" FontSize="14" FontWeight="Bold" HorizontalAlignment="Center"/>
-            <TextBox x:Name="inlogg" Height="20" Width="150"/>
-            <TextBlock Text="Ange lösenord" FontSize="14" FontWeight="Bold" HorizontalAlignment="Center"/>
-            <TextBox x:Name="Lösen" Height="20" Width="150" />
-            <Button x:Name="btnLogin" Content="Login"  FontSize="14" Width="100" Margin="10,5,10,5" Command="{Binding InloggCommand}" Height="27" />
+        <StackPanel DockPanel.Dock="Top" Height="165">
+            <StackPanel.Background>
+                <!--<ImageBrush ImageSource="/Batman.png"/>-->
+
+                <RadialGradientBrush>
+                    <GradientStop Color="Black" Offset="0"/>
+                    <GradientStop Color="#FF0CFF00" Offset="1"/>
+                </RadialGradientBrush>
+            </StackPanel.Background>
+            <TextBlock Text="Ange inloggningsId" FontSize="14" FontWeight="Bold" HorizontalAlignment="Center" Foreground="Red" Margin="5,5,5,5"/>
+            <TextBox x:Name="inlogg" Height="20" Width="150" Text="{Binding AnställningsId,Mode=OneWayToSource}" BorderBrush="#FFE0E0E0" Background="White"/>
+            <TextBlock Text="Ange lösenord" FontSize="14" FontWeight="Bold" HorizontalAlignment="Center" Foreground="Red" Margin="5,5,5,5"/>
+            <TextBox x:Name="Lösen" Height="20" Width="150" Text="{Binding LösenordInlogg}"/>
+            <ToggleButton x:Name="btnLogin" Content="Login"  FontSize="14" Width="100" Margin="10,5,10,5" Command="{Binding InloggCommand}" Height="27"/>
             <Button x:Name="btnExit" Content="Avsluta" FontSize="14" Width="100" Margin="10,5,10,5" Command="{Binding ExitCommand}" />
         </StackPanel>
         <!-- DockPanel Bottom -->
@@ -36,132 +50,149 @@
                 <TextBlock Text="{Binding Status}" />
             </StatusBarItem>
         </StatusBar>
-        <!-- DockPanel Left -->
-        <StackPanel DockPanel.Dock="Left" Orientation="Vertical" Width="333" Background="DarkSeaGreen" Margin="10,10,10,10">
-            <Border BorderThickness="2" BorderBrush="Black">
-                <TextBlock Text="Skapa Bokning" TextAlignment="Center" FontFamily="Arial"
-                           FontSize="14" FontWeight="Bold" Foreground="Blue"
-                           Background="LightCyan" Margin="10,10,10,10"
-                           Padding="10,10,10,10"/>
-            </Border>
-            
-                <TextBlock Text="Välj medlem: " FontWeight="Bold" Margin="5"/>
-            <ComboBox x:Name="VäljMedlem" Width="150" Margin="5,10,5,10" ItemsSource="{Binding Medlem}"
+        <StackPanel x:Name="Container" Orientation="Horizontal" Visibility="{Binding ElementName=btnLogin, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <!-- DockPanel Left -->
+            <StackPanel DockPanel.Dock="Left" Orientation="Vertical" Width="320" Background="DarkSeaGreen" Margin="10,10,10,10">
+                <Border BorderThickness="2" BorderBrush="Black">
+                    <TextBlock Text="Skapa Bokning" TextAlignment="Center" FontFamily="Arial"
+                           FontSize="14" FontWeight="Bold" Foreground="HotPink" Margin="10,10,10,10"
+                           Padding="10,10,10,10">
+                        <TextBlock.Background>
+                            <RadialGradientBrush>
+                                <GradientStop Color="Black" Offset="1"/>
+                                <GradientStop Color="#FF46D9E0" Offset="0"/>
+                            </RadialGradientBrush>
+                        </TextBlock.Background>
+                    </TextBlock>
+                </Border>
+
+                <TextBlock Text="Välj medlem: " FontWeight="Bold" Margin="5" HorizontalAlignment="Center" FontSize="13"/>
+                <ComboBox x:Name="VäljMedlem" Width="150" Margin="5,10,5,10" ItemsSource="{Binding Medlem}"
                           DisplayMemberPath="MedlemsId" SelectedValuePath="MedlemsId"
                           SelectedItem="{Binding MedlemSelectedItem, Mode=TwoWay}"
                           SelectedIndex="{Binding MedlemSelectedIndex, Mode=TwoWay}"
-                          IsEnabled="{Binding IsNotModified}"/>
-            <StackPanel>
-                <TextBlock Text="Välj bokningens startdatum:" FontWeight="Bold" Margin="5" Width="170"/>
-                <DatePicker x:Name="StartTimeText" SelectedDate="{Binding StartLån, Mode=OneWayToSource}" 
-                            BorderThickness="0" Background="Fuchsia" Width="170"/>
-            </StackPanel>
-            <!-- Böcker Datagrid -->
-            <DataGrid x:Name="dgTillgängligaBöcker" Height="150" Width="170" ItemsSource="{Binding TillgängligaBöcker}"
+                      IsEnabled="{Binding IsNotModified}"/>
+                <StackPanel>
+                    <TextBlock Text="Välj bokningens startdatum:" FontWeight="Bold" Margin="5" HorizontalAlignment="Center" FontSize="13"/>
+                    <DatePicker x:Name="StartTimeText" SelectedDate="{Binding StartLån, Mode=OneWayToSource}" 
+                            BorderThickness="0" Background="Fuchsia" FontSize="13" Width="170"/>
+                    <Separator Margin="10"/>
+                </StackPanel>
+                <!-- Böcker Datagrid -->
+                <DataGrid x:Name="dgTillgängligaBöcker" Height="150" Width="205" ItemsSource="{Binding TillgängligaBöcker}"
                       AutoGenerateColumns="False" SelectionMode="Single"
                       SelectionUnit="FullRow" IsReadOnly="True"
                       SelectedItem="{Binding TillgängligaBöckerSelectedItem, Mode=TwoWay}"
-                      SelectedIndex="{Binding TillgängligaBöckerSelectedIndex, Mode=TwoWay}">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="ISBN" Binding="{Binding ISBN}" />
-                    <DataGridTextColumn Header="Titel" Binding="{Binding Titel}" />
-                </DataGrid.Columns>
-            </DataGrid>
-            <!--Knappar för bokning av böcker-->
-            <DockPanel>
-                <StackPanel>
-                    <TextBlock Text="Välja böcker att lägga till alt ta bort:" Height="20" FontSize="14" FontWeight="Bold"/>
-                    <Button x:Name="btnAdd" Content="Add"  FontSize="14" Width="100" Margin="10,5,10,5" Command="{Binding AddCommand}" Height="27" />
-                    <Button x:Name="btnRemove" Content="Remove" FontSize="14" Width="100" Margin="10,5,10,5" Command="{Binding RemoveCommand}" />
-                </StackPanel>
+                      SelectedIndex="{Binding TillgängligaBöckerSelectedIndex, Mode=TwoWay}" Background="#FFF3F1F1" GridLinesVisibility="Vertical" AlternatingRowBackground="#FFE0E0E0">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ISBN" Binding="{Binding ISBN}" />
+                        <DataGridTextColumn Header="Titel" Binding="{Binding Titel}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+                <!--Knappar för bokning av böcker-->
+                <DockPanel>
+                    <StackPanel>
+                        <TextBlock Text="Välja böcker att lägga till alt ta bort:" Height="20" FontSize="13" FontWeight="Bold" HorizontalAlignment="Center"/>
+                        <Button x:Name="btnAdd" Content="Lägg till"  FontSize="14" Width="100" Margin="10,5,10,5" Command="{Binding AddCommand}" Height="27" />
+                        <Button x:Name="btnRemove" Content="Ta bort" FontSize="14" Width="100" Margin="10,5,10,5" Command="{Binding RemoveCommand}" />
+                    </StackPanel>
 
 
-            </DockPanel>
+                </DockPanel>
 
-            <!-- Available Ingredients Datagrid -->
-            <DataGrid x:Name="dgValdaBöcker" Height="150" Width="170" ItemsSource="{Binding ValdaBöcker}"
+                <!-- Available Ingredients Datagrid -->
+                <DataGrid x:Name="dgValdaBöcker" Height="150" Width="170" ItemsSource="{Binding ValdaBöcker}"
                       AutoGenerateColumns="False" SelectionMode="Single"
                       SelectionUnit="FullRow" IsReadOnly="True"
                       SelectedItem="{Binding ValdaBöckerSelectedItem, Mode=TwoWay}"
-                      SelectedIndex="{Binding ValdaBöckerSelectedIndex, Mode=TwoWay}">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="ISBN" Binding="{Binding ISBN}" />
-                    <DataGridTextColumn Header="Titel" Binding="{Binding Titel}" />
-                </DataGrid.Columns>
-            </DataGrid>
-            <StackPanel>
-                <Button x:Name="btnSave" Content="Boka Böcker" FontSize="14" Width="100" Margin="10,15,10,5" Command="{Binding SaveCommand}" />
+                      SelectedIndex="{Binding ValdaBöckerSelectedIndex, Mode=TwoWay}" Background="#FFF3F1F1" GridLinesVisibility="Vertical" AlternatingRowBackground="#FFE0E0E0">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ISBN" Binding="{Binding ISBN}" />
+                        <DataGridTextColumn Header="Titel" Binding="{Binding Titel}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+                <StackPanel>
+                    <Button x:Name="btnSave" Content="Boka Böcker" FontSize="14" Width="100" Margin="10,15,10,5" Command="{Binding SaveCommand}" />
+                </StackPanel>
             </StackPanel>
-        </StackPanel>
-        <!-- DockPanel Right Återlämning-->
-        <StackPanel DockPanel.Dock="Right" Width="333" Orientation="Vertical" Background="Orange" Margin="10,10,10,10">
-            <Border BorderThickness="2" BorderBrush="Black">
-                <TextBlock Text="Lämna Tillbaka bokning" TextAlignment="Center" FontFamily="Arial"
-                           FontSize="14" FontWeight="Bold" Foreground="Blue"
-                           Background="LightCyan" Margin="10,10,10,10"
-                           Padding="10,10,10,10"/>
-            </Border>
-            <TextBlock Text="Ange BokningId eller MedlemsId: " FontWeight="Bold"/>
-            <TextBox x:Name="bIdmId" Width="150" Height="20" Text="{Binding LämnaBokningNr}"/>
-            <Button x:Name="btnSökTillbaka" Margin="10,10,10,10" Content="Sök Bokning" FontSize="14" Width="100" Command="{Binding SökTillbakaCommand, UpdateSourceTrigger=PropertyChanged}" />
-            <Separator Margin="20"/>
-            <DataGrid Height="150" Width="170" ItemsSource="{Binding TillbakaBokningensBöcker}"
-                AutoGenerateColumns="False" IsReadOnly="True">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="ISBN" Binding="{Binding ISBN}" />
-                    <DataGridTextColumn Header="Titel" Binding="{Binding Titel}" />
-                </DataGrid.Columns>
-            </DataGrid>
+            <!-- DockPanel Right Lämna ut Bokning-->
+            <StackPanel Orientation="Vertical" Background="Aqua" Margin="10,10,10,10" Width="290">
+                <Border BorderThickness="2" BorderBrush="Black">
+                    <TextBlock Text="Lämna Ut bokning" TextAlignment="Center" FontFamily="Arial"
+                           FontSize="14" FontWeight="Bold" Foreground="Orange" Margin="10,10,10,10"
+                           Padding="10,10,10,10">
+                        <TextBlock.Background>
+                            <RadialGradientBrush>
+                                <GradientStop Color="Black"/>
+                                <GradientStop Color="#FFE9FF07" Offset="1"/>
+                            </RadialGradientBrush>
+                        </TextBlock.Background>
+                    </TextBlock>
+                </Border>
+                <TextBlock Text="Ange BokningId eller MedlemsId:" HorizontalAlignment="Center" FontWeight="Bold" Margin="5" FontSize="13"/>
+                <TextBox x:Name="bIdmId1" Width="150" Height="20" HorizontalAlignment="Center" Text="{Binding BokningNr, Mode=OneWayToSource}" Margin="5,10,5,10"/>
+                <Button x:Name="btnSök" Content="Sök Bokning" FontSize="14" Width="100" Margin="10,10,10,10" Command="{Binding SökCommand, UpdateSourceTrigger=PropertyChanged}" />
 
-            <Button x:Name="btnLämnaTillbaka" Content="Lämna Tillbaka" FontSize="14" Width="100" Command="{Binding LämnaTillbakaCommand}" />
+                <StackPanel DataContext="{Binding ElementName=bIdmId1}"/>
 
-            <TextBlock Text="Faktura Id" FontWeight="Bold" />
-            <TextBox Text="{Binding FakturaPotatis.FakturaId}" IsReadOnly="True" />
-            <TextBlock Text="Åter tid för bokningen" FontWeight="Bold" />
-            <TextBox Text="{Binding FakturaPotatis.FaktiskÅterTid}" IsReadOnly="True" />
-            <TextBlock Text="Total pris i kr" FontWeight="Bold" />
-            <TextBox Text="{Binding FakturaPotatis.TotalPris}" />
-            <Separator Margin="20"/>
-           
-        </StackPanel>
-        <!-- DockPanel LastChildFill HämtaBokning-->
-        <StackPanel Orientation="Vertical" Background="Aqua" Margin="10,10,10,10">
-            <Border BorderThickness="2" BorderBrush="Black">
-                <TextBlock Text="Lämna Ut bokning" TextAlignment="Center" FontFamily="Arial"
-                           FontSize="14" FontWeight="Bold" Foreground="Blue"
-                           Background="LightCyan" Margin="10,10,10,10"
-                           Padding="10,10,10,10"/>
-            </Border>
-            <TextBlock Text="Ange BokningId eller MedlemsId: " FontWeight="Bold" Margin="5"/>
-            <TextBox x:Name="bIdmId1" Width="150" Height="20" HorizontalAlignment="Center" Text="{Binding BokningNr}" /> <!--, UpdateSourceTrigger=PropertyChanged-->
-            <Button x:Name="btnSök" Content="Sök Bokning" FontSize="14" Width="100" Margin="10,10,10,10" Command="{Binding SökCommand, UpdateSourceTrigger=PropertyChanged}" />
-
-            <StackPanel DataContext="{Binding ElementName=bIdmId1}"/>
-            <!--<TextBlock Text="Id" FontWeight="Bold" Margin="5" />
-            <TextBox Text="{Binding Path=UtBokning.BokningId}" Margin="5" IsReadOnly="True" />-->
-
-            <!--<TextBlock Text="Medlem" FontWeight="Bold" Margin="5" />
-            <TextBox Text="{Binding Path=UtBokning.MedlemsNamn}" IsReadOnly="True" />-->
-
-            <!--<TextBlock Text="Utlämnad" FontWeight="Bold" Margin="5" />
-            <DatePicker Text="{Binding Path=ValdBokning.FaktisktStartLån}" />
-
-            <TextBlock Text="Created By" FontWeight="Bold" Margin="5" />
-            <TextBox Text="{Binding Path=ValdBokning.Expidit.Namn, Mode=TwoWay}" Margin="5" IsReadOnly="True" />
-
-            <TextBlock Text="Veryfied By" FontWeight="Bold" Margin="5" />
-            <TextBox Text="{Binding Path=ValdBokning.Expidit.Namn, Mode=TwoWay}" Margin="5" IsReadOnly="True" />-->
-
-            <Separator Margin="20"/>
-            <DataGrid Height="150" Width="170" ItemsSource="{Binding Path=UtBokningensBöcker}"
+                <Separator Margin="20"/>
+                <TextBlock Text="Skapad av Expidit" FontSize="13" FontWeight="Bold" HorizontalAlignment="Center"/>
+                <TextBox Text="{Binding Path= TillbakaBokning.Expidit}" FontSize="13" Width="150" Height="20" Margin="10,10,10,10"/>
+                <TextBlock Text="Skapad av Expidit med ID" FontSize="13" FontWeight="Bold" HorizontalAlignment="Center"/>
+                <TextBox Text="{Binding Path=ValdBokning.Expidit.AnstId}" FontSize="13" Width="150" Height="20" Margin="10,10,10,10"/>
+                <DataGrid Height="150" Width="205"  ItemsSource="{Binding Path=UtBokningensBöcker}"
                       AutoGenerateColumns="False" IsReadOnly="True">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="ISBN" Binding="{Binding ISBN}" />
-                    <DataGridTextColumn Header="Titel" Binding="{Binding Titel}" />
-                </DataGrid.Columns>
-            </DataGrid>
-            <StackPanel>
-                <Button x:Name="btnHämtaBokning" Content="Hämta ut bokning" FontSize="14" Width="120" Margin="10,15,10,5" Command="{Binding HämtaUtCommand}" />
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ISBN" Binding="{Binding ISBN}" Width="auto"/>
+                        <DataGridTextColumn Header="Titel" Binding="{Binding Titel}" Width="auto"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Separator Margin="10"/>
+                <StackPanel>
+                    <Button x:Name="btnHämtaBokning" Content="Hämta ut bokning" FontSize="14" Width="120" Margin="10,15,10,5" Command="{Binding HämtaUtCommand}" />
+                </StackPanel>
+            </StackPanel>
+
+            <!-- DockPanel LastChildFill Lämna Tillbaka Bokning-->
+            <StackPanel DockPanel.Dock="Right" Width="320" Orientation="Vertical" Background="Orange" Margin="10,10,10,10">
+                <Border BorderThickness="2" BorderBrush="Black">
+                    <TextBlock Text="Lämna Tillbaka bokning" TextAlignment="Center" FontFamily="Arial"
+                           FontSize="14" FontWeight="Bold" Foreground="#FFDCFF00" Margin="10,10,10,10"
+                           Padding="10,10,10,10">
+                        <TextBlock.Background>
+                            <RadialGradientBrush>
+                                <GradientStop Color="Black"/>
+                                <GradientStop Color="#FFFF49C5" Offset="1"/>
+                            </RadialGradientBrush>
+                        </TextBlock.Background>
+                    </TextBlock>
+                </Border>
+                <TextBlock Text="Ange BokningId eller MedlemsId:" HorizontalAlignment="Center" FontWeight="Bold" Margin="5" FontSize="13"/>
+                <TextBox x:Name="bIdmId" Width="150" Height="20" Text="{Binding TillbakaBokningNr, Mode=OneWayToSource}" Margin="5,10,5,10"/>
+                <Button x:Name="btnSökTillbaka" Margin="10,10,10,10" Content="Sök Bokning" FontSize="14" Width="100" Command="{Binding SökTillbakaCommand, UpdateSourceTrigger=PropertyChanged}" />
+                <Separator Margin="20"/>
+                <DataGrid Height="150" Width="205"  ItemsSource="{Binding TillbakaBokningensBöcker}"
+                AutoGenerateColumns="False" IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ISBN" Binding="{Binding ISBN}" />
+                        <DataGridTextColumn Header="Titel" Binding="{Binding Titel}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Separator Margin="20"/>
+
+                <Button x:Name="btnLämnaTillbaka" Content="Lämna Tillbaka" FontSize="14" Width="100" Command="{Binding LämnaTillbakaCommand}" />
+                <Separator Margin="20"/>
+
+                <TextBlock Text="Faktura Id" FontWeight="Bold" HorizontalAlignment="Center"/>
+                <TextBox Text="{Binding FakturaPotatis.FakturaId}" IsReadOnly="True" Width="150" Height="20"/>
+                <TextBlock Text="Skapad av" FontWeight="Bold" HorizontalAlignment="Center"/>
+                <TextBox Text="{Binding Inlogg.Namn}" IsReadOnly="True" Width="150" Height="20"/>
+                <TextBlock Text="Åter tid för bokningen" FontWeight="Bold" HorizontalAlignment="Center"/>
+                <TextBox Text="{Binding FakturaPotatis.FaktiskÅterTid}" IsReadOnly="True" Width="150" Height="20"/>
+                <TextBlock Text="Total pris i kr" FontWeight="Bold" HorizontalAlignment="Center"/>
+                <TextBox Text="{Binding FakturaPotatis.TotalPris}" Width="150" Height="20"/>
+                <Separator Margin="20"/>
+
             </StackPanel>
         </StackPanel>
     </DockPanel>
