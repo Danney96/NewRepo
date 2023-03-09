@@ -13,6 +13,12 @@ namespace PresentationsLager.WPF.MVVM.ViewModels
 {
     public class MainViewModel : ObservableObject
     {
+
+        /// <summary>
+        /// Fixa så att böcker försvinner från datagrid när man klickar på knappen boka. 
+        /// Fixa knappen "sök bokning" vid återlämning så man inte kan visa en bokning som inte hämtats ut. 
+        /// Fixa Datum så vi inte visar timmar, minuter & sekunder. 
+        /// </summary>
         private Kontroller kontroller;
 
         private ObservableCollection<Bok> valdaBöcker = null!;
@@ -37,6 +43,28 @@ namespace PresentationsLager.WPF.MVVM.ViewModels
 
         private Faktura fakturaPotatis;
         public Faktura FakturaPotatis { get => fakturaPotatis; set { fakturaPotatis = value; OnPropertyChanged(); } }
+
+        private Expidit inlogg;
+        public Expidit Inlogg { get => inlogg; set { inlogg = value; OnPropertyChanged(); } }
+
+        private int anställningsId;
+        public int AnställningsId
+        {
+            get { return anställningsId; }
+            set
+            {
+                anställningsId = value; OnPropertyChanged();
+            }
+        }
+        private string lösenordInlogg;
+        public string LösenordInlogg
+        {
+            get { return lösenordInlogg; }
+            set
+            {
+                lösenordInlogg = value; OnPropertyChanged();
+            }
+        }
 
 
         private string status = "Ready";
@@ -97,7 +125,8 @@ namespace PresentationsLager.WPF.MVVM.ViewModels
             set
             {
                 tillgängligaBöckerSelectedItem = value; OnPropertyChanged();              
-                Status = $"Selected available ingredient #{TillgängligaBöckerSelectedItem?.ISBN}: {TillgängligaBöckerSelectedItem?.Titel}";
+                Status = $"Tryck på knappen 'Lägg till' för att lägga till boken: {TillgängligaBöckerSelectedItem?.Titel} med ISBN: " +
+                    $"{TillgängligaBöckerSelectedItem?.ISBN} till eran bokning.";
             }           
         }
 
@@ -126,6 +155,18 @@ namespace PresentationsLager.WPF.MVVM.ViewModels
                 ValdBokning = kontroller.HämtaBokning(bokningNr);
                 BokningensBöcker = new ObservableCollection<Bok>(kontroller.HämtaBokningensBöcker(bokningNr));
                 Status = $"Visar bokningen med bokningsnummer: {valdBokning.BokningId}";
+            }
+        }
+
+        private int tillbakaBokningNr;
+        public int TillbakaBokningNr
+        {
+            get { return tillbakaBokningNr; }
+            set
+            {
+                tillbakaBokningNr = value; OnPropertyChanged();
+                TillbakaBokning = kontroller.HämtaBokning(tillbakaBokningNr);
+                Status = $"Visar bokningen med bokningsnummer: {tillbakaBokning.BokningId}";
             }
         }
 
@@ -190,7 +231,7 @@ namespace PresentationsLager.WPF.MVVM.ViewModels
                 TillgängligaBöcker.Add(bok);
                 ValdaBöcker.Remove(bok);
 
-                Status = $"Removed bok #{bok.Titel} ({bok.ISBN})";
+                Status = $"Tagit bort boken '{bok.Titel}' med följande ISBN: {bok.ISBN}";
 
                 IsNotModified = false;
             }
@@ -207,7 +248,7 @@ namespace PresentationsLager.WPF.MVVM.ViewModels
                 ValdaBöcker.Add(bok);
                 TillgängligaBöcker.Remove(bok);
 
-                Status = $"Added bok #{bok.Titel} ({bok.ISBN})";
+                Status = $"Lagt till boken '{bok.Titel}' med följande ISBN: {bok.ISBN}";
 
                 IsNotModified = false;
             }
@@ -218,8 +259,8 @@ namespace PresentationsLager.WPF.MVVM.ViewModels
         {
             if (valdaBöcker != null)
             {
-                Expidit exp = kontroller.HämtaExpidit(1);
-                UtBokning = kontroller.SkapaBokning(MedlemSelectedItem, exp, StartLån, ValdaBöcker);
+                //Expidit exp = kontroller.HämtaExpidit(1);
+                UtBokning = kontroller.SkapaBokning(MedlemSelectedItem, Inlogg, StartLån, ValdaBöcker);
                 Status = $"Skapat bokning med följande bokningsId: {UtBokning.BokningId}";
                 IsNotModified = true;
             }
@@ -242,28 +283,44 @@ namespace PresentationsLager.WPF.MVVM.ViewModels
         public ICommand SökCommand => sökCommand ??= sökCommand = new RelayCommand(() =>
         {
             UtBokningensBöcker = new ObservableCollection<Bok>(kontroller.HämtaBokningensBöcker(bokningNr));
-             
+            
         });
         private ICommand hämtaUtCommand = null!;
         public ICommand HämtaUtCommand => hämtaUtCommand ??= hämtaUtCommand = new RelayCommand(() =>
         {
             UtBokning = kontroller.HämtaUtBokning(UtBokning);
-            Status = $"Bokningen med bokningsId {UtBokning.BokningId}" +
-            $"har lämnats ut {UtBokning.FaktisktStartLån}" +
-            $"och ska lämnas tillbakas senast {UtBokning.ÅterTid}";
+            Status = $"Bokningen med bokningsId {UtBokning.BokningId} " +
+            $"har lämnats ut {UtBokning.FaktisktStartLån} " +
+            $"och ska lämnas tillbakas senast {UtBokning.ÅterTid} ";
         });
 
         private ICommand sökTillbakaCommand = null!;
         public ICommand SökTillbakaCommand => sökTillbakaCommand ??= sökTillbakaCommand = new RelayCommand(() =>
         {
-            TillbakaBokningensBöcker = new ObservableCollection<Bok>(kontroller.HämtaBokningensBöcker(bokningNr));
+            TillbakaBokningensBöcker = new ObservableCollection<Bok>(kontroller.HämtaBokningensBöcker(tillbakaBokningNr));
+            Status = $"Visar nu böckerna ni önskar lämna tillbaka";
         });
 
         private ICommand lämnaTillbakaCommand = null!;
         public ICommand LämnaTillbakaCommand => lämnaTillbakaCommand ??= lämnaTillbakaCommand = new RelayCommand(() =>
         {
-            Expidit exp = kontroller.HämtaExpidit(1);
-            FakturaPotatis = kontroller.SkapaFaktura(exp, bokningNr);
+            //Expidit exp = kontroller.HämtaExpidit(1);
+            FakturaPotatis = kontroller.SkapaFaktura(Inlogg, tillbakaBokningNr);
+            Status = $"Bokningen har lämnats tillbaka och en Faktura med ID: {FakturaPotatis.FakturaId} har skapats.";
+        });
+
+        private ICommand inloggCommand = null!;
+        public ICommand InloggCommand => inloggCommand ??= inloggCommand = new RelayCommand(() =>
+        {
+            Inlogg = kontroller.Inloggning(anställningsId, lösenordInlogg);
+            if (Inlogg == null)
+            {
+                Status = $"Du har skrivit in fel användarnamn eller lösenord";
+            }
+            else
+            {
+                
+            }
         });
 
     }
