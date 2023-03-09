@@ -50,7 +50,7 @@
                           DisplayMemberPath="MedlemsId" SelectedValuePath="MedlemsId"
                           SelectedItem="{Binding MedlemSelectedItem, Mode=TwoWay}"
                           SelectedIndex="{Binding MedlemSelectedIndex, Mode=TwoWay}"
-                      IsEnabled="{Binding IsNotModified}"/>
+                          IsEnabled="{Binding IsNotModified}"/>
             <StackPanel>
                 <TextBlock Text="Välj bokningens startdatum:" FontWeight="Bold" Margin="5" Width="170"/>
                 <DatePicker x:Name="StartTimeText" SelectedDate="{Binding StartLån, Mode=OneWayToSource}" 
