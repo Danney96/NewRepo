@@ -32,9 +32,6 @@ namespace PresentationsLager.WPF.MVVM.ViewModels
         private ObservableCollection<Bok> tillbakaBokningensBöcker = null!;
         public ObservableCollection<Bok> TillbakaBokningensBöcker { get => tillbakaBokningensBöcker; set { tillbakaBokningensBöcker = value; OnPropertyChanged(); } }
 
-        private Bokning tillbakaBokning;
-        public Bokning TillbakaBokning { get => tillbakaBokning; set { tillbakaBokning = value; OnPropertyChanged(); } }
-
         private Faktura fakturaPotatis;
         public Faktura FakturaPotatis { get => fakturaPotatis; set { fakturaPotatis = value; OnPropertyChanged(); } }
 

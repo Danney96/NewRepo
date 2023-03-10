@@ -11,7 +11,7 @@
     <Window.DataContext>
         <vm:MainViewModel />
     </Window.DataContext>
-    
+
     <DockPanel LastChildFill="True">
         <!-- DockPanel Top -->
         <Menu DockPanel.Dock="Top" Background="LightBlue" Margin="10,10,10,10">
@@ -20,7 +20,7 @@
                 <Separator/>
                 <MenuItem Header="E_xit" Command="{Binding ExitCommand}" />
             </MenuItem>
-            
+
         </Menu>
         <StackPanel DockPanel.Dock="Top" Background="AliceBlue" Height="150">
             <TextBlock Text="Ange inloggningsId" FontSize="14" FontWeight="Bold" HorizontalAlignment="Center"/>
@@ -44,8 +44,8 @@
                            Background="LightCyan" Margin="10,10,10,10"
                            Padding="10,10,10,10"/>
             </Border>
-            
-                <TextBlock Text="Välj medlem: " FontWeight="Bold" Margin="5"/>
+
+            <TextBlock Text="Välj medlem: " FontWeight="Bold" Margin="5"/>
             <ComboBox x:Name="VäljMedlem" Width="150" Margin="5,10,5,10" ItemsSource="{Binding Medlem}"
                           DisplayMemberPath="MedlemsId" SelectedValuePath="MedlemsId"
                           SelectedItem="{Binding MedlemSelectedItem, Mode=TwoWay}"
@@ -56,17 +56,23 @@
                 <DatePicker x:Name="StartTimeText" SelectedDate="{Binding StartLån, Mode=OneWayToSource}" 
                             BorderThickness="0" Background="Fuchsia" Width="170"/>
             </StackPanel>
-            <!-- Böcker Datagrid -->
-            <DataGrid x:Name="dgTillgängligaBöcker" Height="150" Width="170" ItemsSource="{Binding TillgängligaBöcker}"
+            <DataGrid x:Name="dgTillgängligaBöcker" Height="150" Width="205" ItemsSource="{Binding TillgängligaBöcker}"
                       AutoGenerateColumns="False" SelectionMode="Single"
                       SelectionUnit="FullRow" IsReadOnly="True"
                       SelectedItem="{Binding TillgängligaBöckerSelectedItem, Mode=TwoWay}"
-                      SelectedIndex="{Binding TillgängligaBöckerSelectedIndex, Mode=TwoWay}">
+                      SelectedIndex="{Binding TillgängligaBöckerSelectedIndex, Mode=TwoWay}" GridLinesVisibility="Vertical">
+                <DataGrid.AlternatingRowBackground>
+                    <ImageBrush TileMode="None" Stretch="None"/>
+                </DataGrid.AlternatingRowBackground>
+                <DataGrid.HorizontalGridLinesBrush>
+                    <ImageBrush Stretch="None"/>
+                </DataGrid.HorizontalGridLinesBrush>
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="ISBN" Binding="{Binding ISBN}" />
                     <DataGridTextColumn Header="Titel" Binding="{Binding Titel}" />
                 </DataGrid.Columns>
             </DataGrid>
+            <!-- Böcker Datagrid -->
             <!--Knappar för bokning av böcker-->
             <DockPanel>
                 <StackPanel>
@@ -122,7 +128,7 @@
             <TextBlock Text="Total pris i kr" FontWeight="Bold" />
             <TextBox Text="{Binding FakturaPotatis.TotalPris}" />
             <Separator Margin="20"/>
-           
+
         </StackPanel>
         <!-- DockPanel LastChildFill HämtaBokning-->
         <StackPanel Orientation="Vertical" Background="Aqua" Margin="10,10,10,10">
@@ -133,7 +139,8 @@
                            Padding="10,10,10,10"/>
             </Border>
             <TextBlock Text="Ange BokningId eller MedlemsId: " FontWeight="Bold" Margin="5"/>
-            <TextBox x:Name="bIdmId1" Width="150" Height="20" HorizontalAlignment="Center" Text="{Binding BokningNr}" /> <!--, UpdateSourceTrigger=PropertyChanged-->
+            <TextBox x:Name="bIdmId1" Width="150" Height="20" HorizontalAlignment="Center" Text="{Binding BokningNr}" />
+            <!--, UpdateSourceTrigger=PropertyChanged-->
             <Button x:Name="btnSök" Content="Sök Bokning" FontSize="14" Width="100" Margin="10,10,10,10" Command="{Binding SökCommand, UpdateSourceTrigger=PropertyChanged}" />
 
             <StackPanel DataContext="{Binding ElementName=bIdmId1}"/>
