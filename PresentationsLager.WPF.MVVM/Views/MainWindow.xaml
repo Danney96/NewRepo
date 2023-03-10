@@ -6,17 +6,17 @@
         xmlns:local="clr-namespace:PresentationsLager.WPF.MVVM"
         xmlns:vm="clr-namespace:PresentationsLager.WPF.MVVM.ViewModels"
         mc:Ignorable="d"
-        Title="Bokning av böcker" Height="920" Width="1000"
+        Title="Bokning av böcker" Height="auto" Width="auto"
         MinHeight="500" MinWidth="800" WindowStartupLocation="CenterScreen">
     <Window.DataContext>
         <vm:MainViewModel />
     </Window.DataContext>
 
-    <!--<Window.Resources>
+    <Window.Resources>
         <ResourceDictionary>
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         </ResourceDictionary>
-    </Window.Resources>-->
+    </Window.Resources>
 
     <DockPanel LastChildFill="True">
         <!-- DockPanel Top -->
@@ -30,12 +30,12 @@
         </Menu>
         <StackPanel DockPanel.Dock="Top" Height="165">
             <StackPanel.Background>
-                <!--<ImageBrush ImageSource="/Batman.png"/>-->
+                <ImageBrush ImageSource="/Batman.png"/>
 
-                <RadialGradientBrush>
+                <!--<RadialGradientBrush>
                     <GradientStop Color="Black" Offset="0"/>
                     <GradientStop Color="#FF0CFF00" Offset="1"/>
-                </RadialGradientBrush>
+                </RadialGradientBrush>-->
             </StackPanel.Background>
             <TextBlock Text="Ange inloggningsId" FontSize="14" FontWeight="Bold" HorizontalAlignment="Center" Foreground="Red" Margin="5,5,5,5"/>
             <TextBox x:Name="inlogg" Height="20" Width="150" Text="{Binding AnställningsId,Mode=OneWayToSource}" BorderBrush="#FFE0E0E0" Background="White"/>
@@ -50,7 +50,8 @@
                 <TextBlock Text="{Binding Status}" />
             </StatusBarItem>
         </StatusBar>
-        <StackPanel x:Name="Container" Orientation="Horizontal" Visibility="{Binding ElementName=btnLogin, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
+        <ScrollViewer IsTabStop="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <StackPanel x:Name="Container" Orientation="Horizontal" Visibility="{Binding ElementName=btnLogin, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
             <!-- DockPanel Left -->
             <StackPanel DockPanel.Dock="Left" Orientation="Vertical" Width="320" Background="DarkSeaGreen" Margin="10,10,10,10">
                 <Border BorderThickness="2" BorderBrush="Black">
@@ -198,6 +199,7 @@
 
             </StackPanel>
         </StackPanel>
+        </ScrollViewer>
     </DockPanel>
 
 
