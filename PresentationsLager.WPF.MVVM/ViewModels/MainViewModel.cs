@@ -31,7 +31,7 @@ namespace PresentationsLager.WPF.MVVM.ViewModels
         public Bokning ValdBokning { get => valdBokning; set { valdBokning = value; OnPropertyChanged(); } }
 
         private Bokning skapaBokning;
-        public Bokning Bokning { get => skapaBokning; set { skapaBokning = value; OnPropertyChanged(); } }
+        public Bokning SkapaBokning { get => skapaBokning; set { skapaBokning = value; OnPropertyChanged(); } }
 
         private ObservableCollection<Bok> utBokningensBöcker = null!;
         public ObservableCollection<Bok> UtBokningensBöcker { get => utBokningensBöcker; set { utBokningensBöcker = value; OnPropertyChanged(); } }
@@ -128,8 +128,8 @@ namespace PresentationsLager.WPF.MVVM.ViewModels
             set
             {
                 tillgängligaBöckerSelectedItem = value; OnPropertyChanged();              
-                Status = $"Tryck på knappen 'Lägg till' för att lägga till boken: {TillgängligaBöckerSelectedItem?.Titel} med ISBN: " +
-                    $"{TillgängligaBöckerSelectedItem?.ISBN} till eran bokning.";
+                //Status = $"Tryck på knappen 'Lägg till' för att lägga till boken: {TillgängligaBöckerSelectedItem?.Titel} med ISBN: " +
+                   // $"{TillgängligaBöckerSelectedItem?.ISBN} till eran bokning.";
             }           
         }
 
@@ -157,7 +157,7 @@ namespace PresentationsLager.WPF.MVVM.ViewModels
                 bokningNr = value; OnPropertyChanged();
                 //Bokning = kontroller.HämtaBokning(bokningNr);
                 //BokningensBöcker = new ObservableCollection<Bok>(kontroller.HämtaBokningensBöcker(bokningNr));
-                Status = $"Visar bokningen med bokningsnummer: {Bokning.BokningId}";
+                Status = $"Visar bokningen med bokningsnummer: {SkapaBokning.BokningId}";
             }
         }
 
@@ -263,8 +263,8 @@ namespace PresentationsLager.WPF.MVVM.ViewModels
             if (valdaBöcker != null)
             {
                 //Expidit exp = kontroller.HämtaExpidit(1);
-                Bokning = kontroller.SkapaBokning(MedlemSelectedItem, Inlogg, StartLån, ValdaBöcker);
-                Status = $"Skapat bokning med följande bokningsId: {Bokning.BokningId}";
+                SkapaBokning = kontroller.SkapaBokning(MedlemSelectedItem, Inlogg, StartLån, ValdaBöcker);
+                Status = $"Skapat bokning med följande bokningsId: {SkapaBokning.BokningId}";
                 IsNotModified = true;
             }
         }, () => !IsNotModified);
@@ -286,7 +286,7 @@ namespace PresentationsLager.WPF.MVVM.ViewModels
         public ICommand SökCommand => sökCommand ??= sökCommand = new RelayCommand(() =>
         {
             UtBokningensBöcker = new ObservableCollection<Bok>(kontroller.HämtaBokningensBöcker(bokningNr));
-            Bokning = kontroller.HämtaBokning(bokningNr);
+            SkapaBokning = kontroller.HämtaBokning(bokningNr);
             isNotModified = false;
             
         });
@@ -295,10 +295,10 @@ namespace PresentationsLager.WPF.MVVM.ViewModels
         {
             if (UtBokningensBöcker != null)
             {
-                Bokning = kontroller.HämtaUtBokning(Bokning);
-                Status = $"Bokningen med bokningsId {Bokning.BokningId} " +
-                $"har lämnats ut {Bokning.FaktisktStartLån} " +
-                $"och ska lämnas tillbakas senast {Bokning.ÅterTid} ";
+                SkapaBokning = kontroller.HämtaUtBokning(SkapaBokning);
+                Status = $"Bokningen med bokningsId {SkapaBokning.BokningId} " +
+                $"har lämnats ut {SkapaBokning.FaktisktStartLån} " +
+                $"och ska lämnas tillbakas senast {SkapaBokning.ÅterTid} ";
                 IsNotModified = true;
             }                              
         }, () => !IsNotModified); //, () => !IsNotModified

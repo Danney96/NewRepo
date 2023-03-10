@@ -12,11 +12,11 @@
         <vm:MainViewModel />
     </Window.DataContext>
 
-    <Window.Resources>
+    <!--<Window.Resources>
         <ResourceDictionary>
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         </ResourceDictionary>
-    </Window.Resources>
+    </Window.Resources>-->
 
     <DockPanel LastChildFill="True">
         <!-- DockPanel Top -->
