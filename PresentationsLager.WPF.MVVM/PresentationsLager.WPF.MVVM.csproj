@@ -7,12 +7,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Batman.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Converter\" />
     <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\AffärsLager\BusinessEntites.csproj" />
     <ProjectReference Include="..\Entiteter\BusinessLayer.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Batman.png" />
   </ItemGroup>
 
 </Project>

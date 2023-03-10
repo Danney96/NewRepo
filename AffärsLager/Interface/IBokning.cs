@@ -9,9 +9,9 @@ namespace Business.Interface
     {
         int BokningId { get; set; }
         int? SkapadAv { get; set; }
-        Expidit ExpiditNamn { get; set; }
+        Expidit Expidit { get; set; }
         int? Tillhör { get; set; }
-        Medlem MedlemsNamn { get; set; }
+        Medlem Medlem { get; set; }
         IList<Bok> BokadeBöcker { get; set; }
         DateTime StartLån { get; set; }  // Det datum som skrivs in när man först planerar att boka boken ifrån i menyval 1
         DateTime FaktisktStartLån { get; set; } //När boken faktiskt blev upphämtad av medlem, tex om upphämtning sker någon dag efter önskat startdatum på bokningen som angavs under menyval 1.
