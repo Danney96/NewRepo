@@ -219,7 +219,6 @@ namespace PresentationsLager.WPF.MVVM.ViewModels
             Faktura = new ObservableCollection<Faktura>();
             TillgängligaBöcker = new ObservableCollection<Bok>();
             
-
             RefreshCommand.Execute(null);
         }
 
