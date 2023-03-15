@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PresentationsLager.WPF.MVVM"
         xmlns:vm="clr-namespace:PresentationsLager.WPF.MVVM.ViewModels"
         mc:Ignorable="d"
-        Title="Bokning av böcker" Height="970" Width="1000"
+        Title="Bokning av böcker" Height="913" Width="958"
         MinHeight="500" MinWidth="800" WindowStartupLocation="CenterScreen">
     <Window.DataContext>
         <vm:MainViewModel />
@@ -18,9 +18,9 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <DockPanel LastChildFill="True">
+    <DockPanel LastChildFill="True" Margin="0,0,0,55">
         <!-- DockPanel Top -->
-        <Menu DockPanel.Dock="Top" Background="LightBlue" Margin="10,10,10,10">
+        <Menu DockPanel.Dock="Top" Background="LightBlue" Margin="10,10,10,10" Height="15">
             <MenuItem Header="_File">
                 <MenuItem Header="_Refresh" Command="{Binding RefreshCommand}"/>
                 <Separator/>
@@ -28,7 +28,7 @@
             </MenuItem>
 
         </Menu>
-        <StackPanel DockPanel.Dock="Top" Height="165">
+        <StackPanel DockPanel.Dock="Top" Height="117" Width="790">
             <StackPanel.Background>
                 <!--<ImageBrush ImageSource="/Batman.png"/>-->
 
@@ -45,14 +45,32 @@
             <Button x:Name="btnExit" Content="Avsluta" FontSize="14" Width="100" Margin="10,5,10,5" Command="{Binding ExitCommand}" />
         </StackPanel>
         <!-- DockPanel Bottom -->
-        <StatusBar DockPanel.Dock="Bottom" Background="Beige" Margin="10,10,10,10">
+        <StatusBar DockPanel.Dock="Bottom" Background="Beige" Margin="10,10,10,10" RenderTransformOrigin="0.5,0.5">
+            <StatusBar.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-1.068"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </StatusBar.RenderTransform>
             <StatusBarItem HorizontalAlignment="Center">
                 <TextBlock Text="{Binding Status}" />
             </StatusBarItem>
         </StatusBar>
         <StackPanel x:Name="Container" Orientation="Horizontal" Visibility="{Binding ElementName=btnLogin, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
             <!-- DockPanel Left -->
-            <StackPanel DockPanel.Dock="Left" Orientation="Vertical" Width="320" Background="DarkSeaGreen" Margin="10,10,10,10">
+            <!-- DockPanel Left -->
+            <!-- DockPanel Left -->
+            <StackPanel Orientation="Vertical" Width="320" Background="DarkSeaGreen" Height="613" RenderTransformOrigin="0.5,0.5">
+                <StackPanel.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform AngleX="0.434"/>
+                        <RotateTransform/>
+                        <TranslateTransform X="-2.392"/>
+                    </TransformGroup>
+                </StackPanel.RenderTransform>
                 <Border BorderThickness="2" BorderBrush="Black">
                     <TextBlock Text="Skapa Bokning" TextAlignment="Center" FontFamily="Arial"
                            FontSize="14" FontWeight="Bold" Foreground="HotPink" Margin="10,10,10,10"
@@ -99,6 +117,9 @@
 
 
                 </DockPanel>
+                <StackPanel>
+                    <Button x:Name="btnSave" Content="Boka Böcker" FontSize="14" Width="100" Command="{Binding SaveCommand}" />
+                </StackPanel>
 
                 <!-- Available Ingredients Datagrid -->
                 <DataGrid x:Name="dgValdaBöcker" Height="150" Width="170" ItemsSource="{Binding ValdaBöcker}"
@@ -111,12 +132,8 @@
                         <DataGridTextColumn Header="Titel" Binding="{Binding Titel}" />
                     </DataGrid.Columns>
                 </DataGrid>
-                <StackPanel>
-                    <Button x:Name="btnSave" Content="Boka Böcker" FontSize="14" Width="100" Margin="10,15,10,5" Command="{Binding SaveCommand}" />
-                </StackPanel>
             </StackPanel>
-            <!-- DockPanel Right Lämna ut Bokning-->
-            <StackPanel Orientation="Vertical" Background="Aqua" Margin="10,10,10,10" Width="290">
+            <StackPanel Orientation="Vertical" Background="Aqua" Width="290" Height="533">
                 <Border BorderThickness="2" BorderBrush="Black">
                     <TextBlock Text="Lämna Ut bokning" TextAlignment="Center" FontFamily="Arial"
                            FontSize="14" FontWeight="Bold" Foreground="Orange" Margin="10,10,10,10"
@@ -137,10 +154,10 @@
 
                 <Separator Margin="20"/>
                 <TextBlock Text="Skapad av Expidit" FontSize="13" FontWeight="Bold" HorizontalAlignment="Center"/>
-                <TextBox Text="{Binding Path=ValdBokning.Expidit.Namn}" FontSize="13" Width="150" Height="20" Margin="10,10,10,10"/>
+                <TextBox Text="{Binding ValdBokning.Expidit.Namn}" FontSize="13" Width="150" Height="20" Margin="10,10,10,10"/>
                 <TextBlock Text="Skapad av Expidit med ID" FontSize="13" FontWeight="Bold" HorizontalAlignment="Center"/>
-                <TextBox Text="{Binding Path=ValdBokning.Expidit.AnstId}" FontSize="13" Width="150" Height="20" Margin="10,10,10,10"/>
-                <DataGrid Height="150" Width="205"  ItemsSource="{Binding Path=UtBokningensBöcker}"
+                <TextBox Text="{Binding ValdBokning.SkapadAv}" FontSize="13" Width="150" Height="20" Margin="10,10,10,10"/>
+                <DataGrid Height="150" Width="205"  ItemsSource="{Binding UtBokningensBöcker}"
                       AutoGenerateColumns="False" IsReadOnly="True">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="ISBN" Binding="{Binding ISBN}" Width="auto"/>
