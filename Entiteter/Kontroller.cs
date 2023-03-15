@@ -61,13 +61,7 @@ namespace BusinessLayer
         /// Här hämtas tillgängliga böcker för bokning som matchas på property "ÄrTillgänglig == true" och returneras i en IList<> till GUI.
         /// </HämtaTillgängligaBöcker-kommentar>
         /// <returns></returns>
-        public IList<Bok> HämtaTillgängligaBöcker()
-        {
-            using (UnitOfWork unit = new UnitOfWork())
-            {
-                return unit.Bok.Find(z => z.ÄrTillgänglig == true).ToList();
-            }
-        }
+        
 
         public IList<Bok> HämtaAllaBöcker()
         {
@@ -81,7 +75,7 @@ namespace BusinessLayer
         /// <SkapaBokning-kommentar>
         /// I denna metod skapas en bokning och för varje bok i bokningen så sätts ÄrTillgänglig till false. 
         /// Bokningen och böckerna uppdateras i databasen. 
-        /// Bokningen placeras i en List<> som returneras till GUI.
+        /// Bokningen returneras till GUI.
         /// </SkapaBokning-kommentar>
         /// <param name="medlem"></param>
         /// <param name="exp"></param>
@@ -142,21 +136,13 @@ namespace BusinessLayer
         #endregion
         #region HittaMedlem
         /// <HittaMedlem-Kommentar>
-        /// Här hämtas ett objekt av en medlem från databasen och returneras till GUI.
-        /// Medlemen matchas med medlemsId i en FirstOrDefault-metod.
+        /// Här hämtas alla objekt av medlem från databasen och returneras till GUI.
+        
         /// </HittaMedlem-Kommentar>
-        /// <param name="medlemId"></param>
+        /// <param></param>
         /// <returns></returns>
         
-        //public Medlem Hittamedlem(int medlemId)
-        //{
-        //    using (UnitOfWork unit = new UnitOfWork())
-        //    {
-        //        Medlem medlem = unit.Medlem.FirstOrDefault(e => e.MedlemsId == medlemId);
-
-        //        return medlem;
-        //    }
-        //}                  **Orginalet**
+      
      
         public IList<Medlem> Hittamedlem()
         {
@@ -188,7 +174,7 @@ namespace BusinessLayer
                 if (bokning2.Återlämnad == false)
                 {
                     int antalBöcker = bokning2.BokadeBöcker.Count();
-                    //List<Faktura> fakturaList = new List<Faktura>();
+                    
                     int uträkningPris = ((int)(DateTime.Now - bokning2.ÅterTid).TotalDays) * (10 * antalBöcker);
                     if (uträkningPris < 0)
                     {
@@ -211,7 +197,7 @@ namespace BusinessLayer
                     bokning2.Återlämnad = true;
                     unit.Faktura.Update(faktura);
                     unit.Complete();
-                    //fakturaList.Add(faktura);
+                    
                     return faktura;
                 }
                 else
@@ -221,38 +207,16 @@ namespace BusinessLayer
             }
         }
 
-        public Expidit HämtaExpidit(int expNr)
-        {
-            using (UnitOfWork unit = new UnitOfWork())
-            {
-                Expidit expidit = unit.Expidit.FirstOrDefault(e => e.AnstId == expNr);
-
-                return expidit;
-            }
-        }
+       
         #endregion
         #region HämtaBokning
         /// <HämtaBokning-kommentar>
         /// Här hämtas en bokning från databasen som returneras till GUI.
         /// Bokningen matchas med antingen bokningsId eller medlemsId i en FirstOrDefault-metod.
         /// </HämtaBokning-kommentar>
-        /// <param name="EttNr"></param>
+        /// <param name="bId"></param>
         /// <returns></returns>
-        //public IList<Bokning> HämtaBokning(int EttNr)
-        //{
-        //    using (UnitOfWork unit = new UnitOfWork())
-        //    {
-        //        List<Bokning> bokning = new List<Bokning>();
-                
-        //        Bokning b = unit.Bokning.FirstOrDefault(b => b.BokningId == EttNr 
-        //        || b.Medlem.MedlemsId == EttNr);
-
-        //        bokning.Add(b);
-
-
-        //        return bokning;
-        //    }
-        //}     **Orginalet**
+        
 
         public Bokning HämtaBokning(int bId)
         {
@@ -268,22 +232,9 @@ namespace BusinessLayer
         /// Bokning matchas med antingen bokningsId eller medlemsId i en FirstOrDefault-metod i databasen.
         /// Varje bok i bokningens bokadeBöcker läggs till i den temporära List<Bok> som returneras till GUI.
         /// </HämtaBokningensBöcker-kommentar>
-        /// <param name="bNr"></param>
+        /// <param name="EttNr"></param>
         /// <returns></returns>
-        //public List<Bok> HämtaBokningensBöcker(int bNr)
-        //{
-        //    List<Bok> bikbok = new List<Bok>();
-        //    using (UnitOfWork unit = new UnitOfWork())
-        //    {
-        //        Bokning bokning2 = unit.Bokning.FirstOrDefault(b => b.BokningId == bNr || b.Medlem.MedlemsId == bNr);
-
-        //        foreach (Bok b in bokning2.BokadeBöcker)
-        //        {
-        //            bikbok.Add(b);
-        //        }
-        //        return bikbok;
-        //    }
-        //}       **Orginalet**
+        
 
         public IList<Bok> HämtaBokningensBöcker(int EttNr)
         {
