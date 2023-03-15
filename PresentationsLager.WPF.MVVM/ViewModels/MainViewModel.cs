@@ -76,6 +76,9 @@ namespace PresentationsLager.WPF.MVVM.ViewModels
         private bool isNotModified = true;
         public bool IsNotModified { get { return isNotModified; } set { isNotModified = value; OnPropertyChanged(); } }
 
+        private bool isInloggValid = false;
+        public bool IsInloggValid { get { return isInloggValid; } set { isInloggValid = value; OnPropertyChanged(); } }
+
         private DateTime startLån = DateTime.Now; 
         public DateTime StartLån { get { return startLån;} set { startLån = value; OnPropertyChanged(); } }
        
@@ -140,6 +143,9 @@ namespace PresentationsLager.WPF.MVVM.ViewModels
         {
             kontroller = new Kontroller();
             kontroller.LaddaData();
+
+            TillgängligaBöcker = new ObservableCollection<Bok>();
+            ValdaBöcker = new ObservableCollection<Bok>();
             
             RefreshCommand.Execute(null);
         }
@@ -241,15 +247,16 @@ namespace PresentationsLager.WPF.MVVM.ViewModels
         public ICommand InloggCommand => inloggCommand ??= inloggCommand = new RelayCommand(() =>
         {
             Inlogg = kontroller.Inloggning(anställningsId, lösenordInlogg);
-            if (Inlogg == null || LösenordInlogg == null)
+            if (Inlogg == null)
             {
                 Status = $"Du har skrivit in fel användarnamn eller lösenord";
             }
             else
             {
-                
+                Status = $"Inloggningen Lyckades, Välkommen {Inlogg.Namn}";
+                IsInloggValid= true ;
             }
-            Status = $"Inloggningen Lyckades, Välkommen {Inlogg.Namn}";
+            
         });
 
     }
