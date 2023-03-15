@@ -75,7 +75,7 @@
                           IsEnabled="{Binding IsNotModified}"/> 
                 <StackPanel>
                     <TextBlock Text="Välj bokningens startdatum:" FontWeight="Bold" Margin="5" HorizontalAlignment="Center" FontSize="13"/>
-                    <DatePicker x:Name="StartTimeText" SelectedDate="{Binding StartLån, Mode=OneWayToSource}" 
+                    <DatePicker x:Name="StartTimeText" SelectedDate="{Binding StartLån, Mode=OneWayToSource}"
                             BorderThickness="0" Background="Fuchsia" FontSize="13" Width="170"/>
                     <Separator Margin="10"/>
                 </StackPanel>

@@ -266,7 +266,7 @@ namespace PresentationsLager.WPF.MVVM.ViewModels
         private ICommand saveCommand = null!;
         public ICommand SaveCommand => saveCommand ??= saveCommand = new RelayCommand(() =>
         {
-            if (valdaBöcker != null)
+        if (valdaBöcker != null)
             {
                 //Expidit exp = kontroller.HämtaExpidit(1);
                 SkapaBokning = kontroller.SkapaBokning(MedlemSelectedItem, Inlogg, StartLån, ValdaBöcker);
@@ -333,7 +333,7 @@ namespace PresentationsLager.WPF.MVVM.ViewModels
 
             if (identifierad != false)
             {
-                Inlogg = kontroller.Inloggning(anställningsId, lösenordInlogg);
+                
             }
             else
             {
