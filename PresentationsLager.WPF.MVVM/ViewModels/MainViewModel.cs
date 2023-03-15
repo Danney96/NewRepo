@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Windows.Documents;
 using System.Windows.Input;
 
 namespace PresentationsLager.WPF.MVVM.ViewModels
@@ -46,7 +47,12 @@ namespace PresentationsLager.WPF.MVVM.ViewModels
         public Faktura FakturaPotatis { get => fakturaPotatis; set { fakturaPotatis = value; OnPropertyChanged(); } }
 
         private Expidit inlogg;
-        public Expidit Inlogg { get => inlogg; set { inlogg = value; OnPropertyChanged(); } }
+        public Expidit Inlogg {get => inlogg; set { inlogg = value; OnPropertyChanged(); } }
+
+        private bool identifierad = false;
+        public bool Identifierad
+        {get => Inlogg != null; 
+         set { Identifierad = true; OnPropertyChanged(); } }
 
         private int anställningsId;
         public int AnställningsId
@@ -90,6 +96,7 @@ namespace PresentationsLager.WPF.MVVM.ViewModels
             get => boks;
             set { boks = value; OnPropertyChanged(); }
         }
+        
 
         private DateTime startLån;  //FIXA SENARE
         public DateTime StartLån
@@ -319,19 +326,20 @@ namespace PresentationsLager.WPF.MVVM.ViewModels
             isNotModified = false;
         });
 
+
         private ICommand inloggCommand = null!;
         public ICommand InloggCommand => inloggCommand ??= inloggCommand = new RelayCommand(() =>
         {
-            Inlogg = kontroller.Inloggning(anställningsId, lösenordInlogg);
-            if (Inlogg == null || LösenordInlogg == null)
+
+            if (identifierad != false)
             {
-                Status = $"Du har skrivit in fel användarnamn eller lösenord";
+                Inlogg = kontroller.Inloggning(anställningsId, lösenordInlogg);
             }
             else
             {
-                
+                Status = $"FÖrsök har skrivit in fel användarnamn eller lösenord";
             }
-        });
+        }, () => identifierad);
 
     }
 }
