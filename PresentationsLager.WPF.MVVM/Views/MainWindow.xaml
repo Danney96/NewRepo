@@ -6,22 +6,22 @@
         xmlns:local="clr-namespace:PresentationsLager.WPF.MVVM"
         xmlns:vm="clr-namespace:PresentationsLager.WPF.MVVM.ViewModels"
         mc:Ignorable="d"
-        Title="Bokning av böcker" Height="970" Width="1000"
+        Title="Bokning av böcker" Height="auto" Width="auto"
         MinHeight="500" MinWidth="800" WindowStartupLocation="CenterScreen">
     <Window.DataContext>
         <vm:MainViewModel />
     </Window.DataContext>
 
-    <Window.Resources>
+    <!--<Window.Resources>
         <ResourceDictionary>
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         </ResourceDictionary>
-    </Window.Resources>
+    </Window.Resources>-->
 
     <DockPanel LastChildFill="True">
         <!-- DockPanel Top -->
         <Menu DockPanel.Dock="Top" Background="LightBlue" Margin="10,10,10,10">
-            <MenuItem Header="_File">
+            <MenuItem Header="_File" FontWeight="Bold" FontSize="13">
                 <MenuItem Header="_Refresh" Command="{Binding RefreshCommand}"/>
                 <Separator/>
                 <MenuItem Header="E_xit" Command="{Binding ExitCommand}" />
@@ -30,12 +30,12 @@
         </Menu>
         <StackPanel DockPanel.Dock="Top" Height="165">
             <StackPanel.Background>
-                <!--<ImageBrush ImageSource="/Batman.png"/>-->
+                <ImageBrush ImageSource="/Batman.png"/>
 
-                <RadialGradientBrush>
+                <!--<RadialGradientBrush>
                     <GradientStop Color="Black" Offset="0"/>
                     <GradientStop Color="#FF0CFF00" Offset="1"/>
-                </RadialGradientBrush>
+                </RadialGradientBrush>-->
             </StackPanel.Background>
             <TextBlock Text="Ange inloggningsId" FontSize="14" FontWeight="Bold" HorizontalAlignment="Center" Foreground="Red" Margin="5,5,5,5"/>
             <TextBox x:Name="inlogg" Height="20" Width="150" Text="{Binding AnställningsId,Mode=OneWayToSource}" BorderBrush="#FFE0E0E0" Background="White"/>
@@ -50,7 +50,8 @@
                 <TextBlock Text="{Binding Status}" />
             </StatusBarItem>
         </StatusBar>
-        <StackPanel x:Name="Container" Orientation="Horizontal" Visibility="{Binding ElementName=btnLogin, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
+        <ScrollViewer IsTabStop="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <StackPanel x:Name="Container" Orientation="Horizontal" Visibility="{Binding ElementName=btnLogin, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
             <!-- DockPanel Left -->
             <StackPanel DockPanel.Dock="Left" Orientation="Vertical" Width="320" Background="DarkSeaGreen" Margin="10,10,10,10">
                 <Border BorderThickness="2" BorderBrush="Black">
@@ -71,7 +72,7 @@
                           DisplayMemberPath="MedlemsId" SelectedValuePath="MedlemsId"
                           SelectedItem="{Binding MedlemSelectedItem, Mode=TwoWay}"
                           SelectedIndex="{Binding MedlemSelectedIndex, Mode=TwoWay}"
-                      IsEnabled="{Binding IsNotModified}"/>
+                          IsEnabled="{Binding IsNotModified}"/> 
                 <StackPanel>
                     <TextBlock Text="Välj bokningens startdatum:" FontWeight="Bold" Margin="5" HorizontalAlignment="Center" FontSize="13"/>
                     <DatePicker x:Name="StartTimeText" SelectedDate="{Binding StartLån, Mode=OneWayToSource}" 
@@ -79,7 +80,7 @@
                     <Separator Margin="10"/>
                 </StackPanel>
                 <!-- Böcker Datagrid -->
-                <DataGrid x:Name="dgTillgängligaBöcker" Height="150" Width="205" ItemsSource="{Binding TillgängligaBöcker}"
+                <DataGrid x:Name="dgTillgängligaBöcker" Height="100" Width="205" ItemsSource="{Binding TillgängligaBöcker}"
                       AutoGenerateColumns="False" SelectionMode="Single"
                       SelectionUnit="FullRow" IsReadOnly="True"
                       SelectedItem="{Binding TillgängligaBöckerSelectedItem, Mode=TwoWay}"
@@ -101,7 +102,7 @@
                 </DockPanel>
 
                 <!-- Available Ingredients Datagrid -->
-                <DataGrid x:Name="dgValdaBöcker" Height="150" Width="170" ItemsSource="{Binding ValdaBöcker}"
+                <DataGrid x:Name="dgValdaBöcker" Height="100" Width="205" ItemsSource="{Binding ValdaBöcker}"
                       AutoGenerateColumns="False" SelectionMode="Single"
                       SelectionUnit="FullRow" IsReadOnly="True"
                       SelectedItem="{Binding ValdaBöckerSelectedItem, Mode=TwoWay}"
@@ -133,14 +134,15 @@
                 <TextBox x:Name="bIdmId1" Width="150" Height="20" HorizontalAlignment="Center" Text="{Binding BokningNr, Mode=OneWayToSource}" Margin="5,10,5,10"/>
                 <Button x:Name="btnSök" Content="Sök Bokning" FontSize="14" Width="100" Margin="10,10,10,10" Command="{Binding SökCommand, UpdateSourceTrigger=PropertyChanged}" />
 
-                <StackPanel DataContext="{Binding ElementName=bIdmId1}"/>
+                <StackPanel DataContext="{Binding Path=Bokning}">
 
-                <Separator Margin="20"/>
-                <TextBlock Text="Skapad av Expidit" FontSize="13" FontWeight="Bold" HorizontalAlignment="Center"/>
-                <TextBox Text="{Binding Path= TillbakaBokning.Expidit}" FontSize="13" Width="150" Height="20" Margin="10,10,10,10"/>
-                <TextBlock Text="Skapad av Expidit med ID" FontSize="13" FontWeight="Bold" HorizontalAlignment="Center"/>
-                <TextBox Text="{Binding Path=ValdBokning.Expidit.AnstId}" FontSize="13" Width="150" Height="20" Margin="10,10,10,10"/>
-                <DataGrid Height="150" Width="205"  ItemsSource="{Binding Path=UtBokningensBöcker}"
+                    <Separator Margin="20"/>
+                    <!--<TextBlock Text="Skapad av Expidit" FontSize="13" FontWeight="Bold" HorizontalAlignment="Center"/>
+                    <TextBox Text="{Binding Path=Expidit}" FontSize="13" Width="150" Height="20" Margin="10,10,10,10"/>
+                    <TextBlock Text="Skapad av Expidit med ID" FontSize="13" FontWeight="Bold" HorizontalAlignment="Center"/>
+                    <TextBox Text="{Binding Path=SkapadAv}" FontSize="13" Width="150" Height="20" Margin="10,10,10,10"/>-->
+                </StackPanel>
+                <DataGrid Height="150" Width="205"  ItemsSource="{Binding UtBokningensBöcker}"
                       AutoGenerateColumns="False" IsReadOnly="True">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="ISBN" Binding="{Binding ISBN}" Width="auto"/>
@@ -151,6 +153,8 @@
                 <StackPanel>
                     <Button x:Name="btnHämtaBokning" Content="Hämta ut bokning" FontSize="14" Width="120" Margin="10,15,10,5" Command="{Binding HämtaUtCommand}" />
                 </StackPanel>
+                    
+
             </StackPanel>
 
             <!-- DockPanel LastChildFill Lämna Tillbaka Bokning-->
@@ -185,8 +189,8 @@
 
                 <TextBlock Text="Faktura Id" FontWeight="Bold" HorizontalAlignment="Center"/>
                 <TextBox Text="{Binding FakturaPotatis.FakturaId}" IsReadOnly="True" Width="150" Height="20"/>
-                <TextBlock Text="Skapad av" FontWeight="Bold" HorizontalAlignment="Center"/>
-                <TextBox Text="{Binding Inlogg.Namn}" IsReadOnly="True" Width="150" Height="20"/>
+                <!--<TextBlock Text="Skapad av" FontWeight="Bold" HorizontalAlignment="Center"/>
+                <TextBox Text="{Binding Inlogg.Namn}" IsReadOnly="True" Width="150" Height="20"/>-->
                 <TextBlock Text="Åter tid för bokningen" FontWeight="Bold" HorizontalAlignment="Center"/>
                 <TextBox Text="{Binding FakturaPotatis.FaktiskÅterTid}" IsReadOnly="True" Width="150" Height="20"/>
                 <TextBlock Text="Total pris i kr" FontWeight="Bold" HorizontalAlignment="Center"/>
@@ -195,6 +199,7 @@
 
             </StackPanel>
         </StackPanel>
+        </ScrollViewer>
     </DockPanel>
 
 

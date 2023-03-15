@@ -258,7 +258,7 @@ namespace BusinessLayer
         {
             using (UnitOfWork unit = new UnitOfWork())
             {
-                return unit.Bokning.FirstOrDefault(z => z.BokningId == bId);
+                return unit.Bokning.FirstOrDefault(z => z.BokningId == bId || bId == z.Tillhör);
             }
         }
         #endregion
