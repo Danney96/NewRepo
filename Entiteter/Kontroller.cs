@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using Business.Classes;
 using Business.Interface;
 using DataLayer;
@@ -35,7 +36,7 @@ namespace BusinessLayer
         public void LaddaData()
         {
             BokningDbContext DbContext = new BokningDbContext();
-            DbContext.Reset();
+            //DbContext.Reset();
             DbContext.Database.EnsureCreated();
         }
         #endregion
@@ -261,6 +262,20 @@ namespace BusinessLayer
                 return unit.Bokning.FirstOrDefault(z => z.BokningId == bId || bId == z.Tillhör);
             }
         }
+
+        public IList<Bokning> PotatoTry()
+        {
+            using (UnitOfWork unit = new UnitOfWork())
+            {
+                return UnitOfWork.Bokning.Query(b => b
+                .Include(x => x.Medlem)
+                .ThenInclude(m => m.Namn)
+                .Include(x => x.Expidit).
+                ThenInclude(x => x.Namn)).ToList();
+            }
+        }
+
+
         #endregion
         #region HämtaBokningensBöcker
         /// <HämtaBokningensBöcker-kommentar>

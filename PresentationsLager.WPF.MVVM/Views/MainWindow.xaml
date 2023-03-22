@@ -12,11 +12,11 @@
         <vm:MainViewModel />
     </Window.DataContext>
 
-    <!--<Window.Resources>
+    <Window.Resources>
         <ResourceDictionary>
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         </ResourceDictionary>
-    </Window.Resources>-->
+    </Window.Resources>
 
     <DockPanel LastChildFill="True">
         <!-- DockPanel Top -->
@@ -144,12 +144,20 @@
                 </StackPanel>
                 <DataGrid Height="150" Width="205"  ItemsSource="{Binding UtBokningensBöcker}"
                       AutoGenerateColumns="False" IsReadOnly="True">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="ISBN" Binding="{Binding ISBN}" Width="auto"/>
-                        <DataGridTextColumn Header="Titel" Binding="{Binding Titel}" Width="auto"/>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ISBN" Binding="{Binding ISBN}" Width="auto"/>
+                            <DataGridTextColumn Header="Titel" Binding="{Binding Titel}" Width="auto"/>
                     </DataGrid.Columns>
                 </DataGrid>
-                <Separator Margin="10"/>
+                    <DataGrid Height="150" Width="205"  ItemsSource="{Binding Potatis}"
+                      AutoGenerateColumns="False" IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="BokningId" Binding="{Binding Path=Potatis.BokningId}" Width="auto"/>
+                            <DataGridTextColumn Header="MedlemsNamn" Binding="{Binding Path=Potatis.Medlem.Namn}" Width="auto"/>
+                            <DataGridTextColumn Header="ExpiditNamn" Binding="{Binding Path=Potatis.Expidit.Namn}" Width="auto"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Separator Margin="10"/>
                 <StackPanel>
                     <Button x:Name="btnHämtaBokning" Content="Hämta ut bokning" FontSize="14" Width="120" Margin="10,15,10,5" Command="{Binding HämtaUtCommand}" />
                 </StackPanel>

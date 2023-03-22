@@ -33,12 +33,17 @@ namespace PresentationsLager.WPF.MVVM.ViewModels
         private Bokning skapaBokning;
         public Bokning SkapaBokning { get => skapaBokning; set { skapaBokning = value; OnPropertyChanged(); } }
 
+        private Bokning tillbakaBokning;
+        public Bokning TillbakaBokning { get => tillbakaBokning; set { tillbakaBokning = value; OnPropertyChanged(); } }
+
         private ObservableCollection<Bok> utBokningensBöcker = null!;
         public ObservableCollection<Bok> UtBokningensBöcker { get => utBokningensBöcker; set { utBokningensBöcker = value; OnPropertyChanged(); } }
 
         private ObservableCollection<Bok> tillbakaBokningensBöcker = null!;
         public ObservableCollection<Bok> TillbakaBokningensBöcker { get => tillbakaBokningensBöcker; set { tillbakaBokningensBöcker = value; OnPropertyChanged(); } }
 
+        private ObservableCollection<Bokning> potatis = null!;
+        public ObservableCollection<Bokning> Potatis { get => potatis; set { potatis = value; OnPropertyChanged(); } }
         private Faktura fakturaPotatis;
         public Faktura FakturaPotatis { get => fakturaPotatis; set { fakturaPotatis = value; OnPropertyChanged(); } }
 
@@ -154,6 +159,7 @@ namespace PresentationsLager.WPF.MVVM.ViewModels
                 bokningNr = value; OnPropertyChanged();
                 //Bokning = kontroller.HämtaBokning(bokningNr);
                 //BokningensBöcker = new ObservableCollection<Bok>(kontroller.HämtaBokningensBöcker(bokningNr));
+                Potatis = new ObservableCollection<Bokning>(kontroller.PotatoTry());
                 Status = $"Visar bokningen med bokningsnummer: {SkapaBokning.BokningId}";
             }
         }
